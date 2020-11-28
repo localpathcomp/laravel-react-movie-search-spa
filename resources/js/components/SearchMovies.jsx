@@ -5,7 +5,7 @@ const SearchMovies = () => {
 
     const [searching, setSearching] = useState(false)
     const [message, setMessage] = useState(null)
-    const [movies, setMovies] = useState(null)
+    const [movies, setMovies] = useState([])
     const [query, setQuery] = useState('')
 
     const searchMovies = async (e) => {
@@ -16,15 +16,17 @@ const SearchMovies = () => {
             const response = await fetch(`${url}&s=${query}&type="movie"`)
             const data = await response.json()
             setMessage(null)
-            setMovies(data.search)
+            if (! data.Search) {
+                throw new Error('No movies were found!')
+            }
+            setMovies(data.Search)
             setSearching(false)
-            console.log(response.data)
         } catch (err) {
-            setMessage('An unexpected error occured.')
+            console.log(err.message);
+            setMessage(err?.message)
             setSearching(false)
         }
     }
-
 
     return (
         <>
@@ -52,11 +54,15 @@ const SearchMovies = () => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-6 col-md-2 offset-md-1"></div>
-                    <div className="col-6 col-md-2"></div>
-                    <div className="col-6 col-md-2"></div>
-                    <div className="col-6 col-md-2"></div>
-                    <div className="col-6 col-md-2"></div>
+                    {searching && !message ? (<span> loading... </span>) : message ? (<div className="message"> {message} </div>) : (
+                        movies.length > 0 && movies.map((movie, idx) => (
+                            <div className={`col-6 col-md-2 ${idx == 0 || idx % 5 == 0 ? 'offset-md-1' : ''} mr-2 mt-3 pt-1 px-1 rounded shadow`} key={movie.imdbID}>
+                                <img className="img-fluid" style={{ height: "269px"}} src={movie.Poster} alt="Movie Poster" />
+                                <p className="pt-3">Title: <span className="text-muted">{movie.Title}</span></p>
+                                <p>Year of Release: <span className="text-muted">{movie.Year}</span></p>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </>

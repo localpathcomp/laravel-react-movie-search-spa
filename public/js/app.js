@@ -66724,7 +66724,7 @@ var SearchMovies = function SearchMovies() {
       message = _useState4[0],
       setMessage = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(null),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])([]),
       _useState6 = _slicedToArray(_useState5, 2),
       movies = _useState6[0],
       setMovies = _useState6[1];
@@ -66756,24 +66756,33 @@ var SearchMovies = function SearchMovies() {
             case 9:
               data = _context.sent;
               setMessage(null);
-              setMovies(data.search);
+
+              if (data.Search) {
+                _context.next = 13;
+                break;
+              }
+
+              throw new Error('No movies were found!');
+
+            case 13:
+              setMovies(data.Search);
               setSearching(false);
-              console.log(response.data);
-              _context.next = 20;
+              _context.next = 22;
               break;
 
-            case 16:
-              _context.prev = 16;
+            case 17:
+              _context.prev = 17;
               _context.t0 = _context["catch"](3);
-              setMessage('An unexpected error occured.');
+              console.log(_context.t0.message);
+              setMessage(_context.t0 === null || _context.t0 === void 0 ? void 0 : _context.t0.message);
               setSearching(false);
 
-            case 20:
+            case 22:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[3, 16]]);
+      }, _callee, null, [[3, 17]]);
     }));
 
     return function searchMovies(_x) {
@@ -66806,16 +66815,26 @@ var SearchMovies = function SearchMovies() {
     onClick: searchMovies
   }, "Search"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
     className: "row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-    className: "col-6 col-md-2 offset-md-1"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-    className: "col-6 col-md-2"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-    className: "col-6 col-md-2"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-    className: "col-6 col-md-2"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-    className: "col-6 col-md-2"
+  }, searching && !message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", null, " loading... ") : message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+    className: "message"
+  }, " ", message, " ") : movies.length > 0 && movies.map(function (movie, idx) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      className: "col-6 col-md-2 ".concat(idx == 0 || idx % 5 == 0 ? 'offset-md-1' : '', " mr-2 mt-3 pt-1 px-1 rounded shadow"),
+      key: movie.imdbID
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("img", {
+      className: "img-fluid",
+      style: {
+        height: "269px"
+      },
+      src: movie.Poster,
+      alt: "Movie Poster"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("p", {
+      className: "pt-3"
+    }, "Title: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+      className: "text-muted"
+    }, movie.Title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("p", null, "Year of Release: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+      className: "text-muted"
+    }, movie.Year)));
   }))));
 };
 
