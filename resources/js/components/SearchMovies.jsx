@@ -11,7 +11,7 @@ const SearchMovies = () => {
     const searchMovies = async (e) => {
         e.preventDefault()
         setSearching(true)
-        let url = `${process.env.MIX_OMDB_URL}/?&apikey=${process.env.MIX_OMDB_KEY}`
+        let url = `https://www.omdbapi.com/?&apikey=${process.env.MIX_OMDB_KEY}`
         try {
             const response = await fetch(`${url}&s=${query}&type="movie"`)
             const data = await response.json()
